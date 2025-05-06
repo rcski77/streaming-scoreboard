@@ -4,7 +4,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Scoreboard({
@@ -39,7 +39,7 @@ export default function Scoreboard({
     setTimeout(() => setToastMessage(""), 3000);
   };
 
-  const fetchScoreboard = async () => {
+  const fetchScoreboard = useCallback(async () => {
     try {
       const res = await fetch(`/api/scoreboard/${courtId}`);
       const data = await res.json();
@@ -49,11 +49,11 @@ export default function Scoreboard({
       setError(true);
       setLoading(false);
     }
-  };
+  }, [courtId]);
 
   useEffect(() => {
     fetchScoreboard();
-  }, []);
+  }, [fetchScoreboard]);
 
   const updateScore = async (deltaA: number, deltaB: number) => {
     if (!scoreboard) return;
@@ -179,7 +179,7 @@ export default function Scoreboard({
   return (
     <div className="relative p-4 text-center">
       {toastMessage && (
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white px-6 py-3 rounded shadow-lg z-50 transition-opacity duration-500 opacity-100 animate-fade">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-red-400 text-white px-6 py-3 rounded shadow-lg z-50 transition-opacity duration-500 opacity-100 animate-fade">
           {toastMessage}
         </div>
       )}

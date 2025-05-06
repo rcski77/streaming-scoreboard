@@ -2,12 +2,18 @@
 // app/scoreboard/[courtId]/display/page.tsx (Green screen background with blue team panels)
 // ----------
 
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from "react";
 
-export default function ScoreboardDisplay({ params }: { params: { courtId: string } }) {
-  const courtId = parseInt(params.courtId)
+export default function ScoreboardDisplay({
+  params,
+}: {
+  params: Promise<{ courtId: string }>;
+}) {
+  const { courtId } = use(params);
+  const parsedCourtId = parseInt(courtId);
+
   interface Scoreboard {
     teamA: string;
     scoreA: number;
@@ -17,22 +23,24 @@ export default function ScoreboardDisplay({ params }: { params: { courtId: strin
     gamesB?: number;
   }
 
-  const [scoreboard, setScoreboard] = useState<Scoreboard | null>(null)
-
-  const fetchScore = async () => {
-    const res = await fetch(`/api/scoreboard/${courtId}`)
-    const data = await res.json()
-    setScoreboard(data)
-  }
+  const [scoreboard, setScoreboard] = useState<Scoreboard | null>(null);
 
   useEffect(() => {
-    fetchScore()
-    const interval = setInterval(fetchScore, 3000)
-    return () => clearInterval(interval)
-  }, [])
+    const fetchScore = async () => {
+      const res = await fetch(`/api/scoreboard/${parsedCourtId}`);
+      const data = await res.json();
+      setScoreboard(data);
+    };
+
+    fetchScore();
+    const interval = setInterval(fetchScore, 3000);
+    return () => clearInterval(interval);
+  }, [parsedCourtId]);
 
   if (!scoreboard) {
-    return <div className="p-4 text-center text-white">Loading scoreboard...</div>
+    return (
+      <div className="p-4 text-center text-white">Loading scoreboard...</div>
+    );
   }
 
   return (
@@ -51,14 +59,12 @@ export default function ScoreboardDisplay({ params }: { params: { courtId: strin
           <div className="col-span-3 bg-gradient-to-r from-blue-700 to-blue-500 p-4">
             {scoreboard.teamB}
           </div>
-          <div className="bg-gray-800 p-4">
-            {scoreboard.scoreB}
-          </div>
+          <div className="bg-gray-800 p-4">{scoreboard.scoreB}</div>
           <div className="bg-yellow-500 text-black p-4">
             {scoreboard.gamesB ?? 0}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
