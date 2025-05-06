@@ -132,6 +132,8 @@ exports.Prisma.ScoreboardScalarFieldEnum = {
   teamB: 'teamB',
   scoreA: 'scoreA',
   scoreB: 'scoreB',
+  gamesA: 'gamesA',
+  gamesB: 'gamesB',
   updatedAt: 'updatedAt'
 };
 

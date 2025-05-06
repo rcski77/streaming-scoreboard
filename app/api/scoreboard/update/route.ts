@@ -9,8 +9,10 @@ export async function POST(req: Request) {
       teamA: body.teamA,
       teamB: body.teamB,
       scoreA: body.scoreA,
-      scoreB: body.scoreB
+      scoreB: body.scoreB,
+      gamesA: body.gamesA,
+      gamesB: body.gamesB,
     }
-  })
+  })  
   return NextResponse.json(updated)
 }

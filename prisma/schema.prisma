@@ -28,5 +28,7 @@ model Scoreboard {
   teamB     String
   scoreA    Int
   scoreB    Int
+  gamesA    Int      @default(0)
+  gamesB    Int      @default(0)
   updatedAt DateTime @updatedAt
 }

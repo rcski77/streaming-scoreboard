@@ -2072,6 +2072,8 @@ export namespace Prisma {
     courtId: number | null
     scoreA: number | null
     scoreB: number | null
+    gamesA: number | null
+    gamesB: number | null
   }
 
   export type ScoreboardSumAggregateOutputType = {
@@ -2079,6 +2081,8 @@ export namespace Prisma {
     courtId: number | null
     scoreA: number | null
     scoreB: number | null
+    gamesA: number | null
+    gamesB: number | null
   }
 
   export type ScoreboardMinAggregateOutputType = {
@@ -2088,6 +2092,8 @@ export namespace Prisma {
     teamB: string | null
     scoreA: number | null
     scoreB: number | null
+    gamesA: number | null
+    gamesB: number | null
     updatedAt: Date | null
   }
 
@@ -2098,6 +2104,8 @@ export namespace Prisma {
     teamB: string | null
     scoreA: number | null
     scoreB: number | null
+    gamesA: number | null
+    gamesB: number | null
     updatedAt: Date | null
   }
 
@@ -2108,6 +2116,8 @@ export namespace Prisma {
     teamB: number
     scoreA: number
     scoreB: number
+    gamesA: number
+    gamesB: number
     updatedAt: number
     _all: number
   }
@@ -2118,6 +2128,8 @@ export namespace Prisma {
     courtId?: true
     scoreA?: true
     scoreB?: true
+    gamesA?: true
+    gamesB?: true
   }
 
   export type ScoreboardSumAggregateInputType = {
@@ -2125,6 +2137,8 @@ export namespace Prisma {
     courtId?: true
     scoreA?: true
     scoreB?: true
+    gamesA?: true
+    gamesB?: true
   }
 
   export type ScoreboardMinAggregateInputType = {
@@ -2134,6 +2148,8 @@ export namespace Prisma {
     teamB?: true
     scoreA?: true
     scoreB?: true
+    gamesA?: true
+    gamesB?: true
     updatedAt?: true
   }
 
@@ -2144,6 +2160,8 @@ export namespace Prisma {
     teamB?: true
     scoreA?: true
     scoreB?: true
+    gamesA?: true
+    gamesB?: true
     updatedAt?: true
   }
 
@@ -2154,6 +2172,8 @@ export namespace Prisma {
     teamB?: true
     scoreA?: true
     scoreB?: true
+    gamesA?: true
+    gamesB?: true
     updatedAt?: true
     _all?: true
   }
@@ -2251,6 +2271,8 @@ export namespace Prisma {
     teamB: string
     scoreA: number
     scoreB: number
+    gamesA: number
+    gamesB: number
     updatedAt: Date
     _count: ScoreboardCountAggregateOutputType | null
     _avg: ScoreboardAvgAggregateOutputType | null
@@ -2280,6 +2302,8 @@ export namespace Prisma {
     teamB?: boolean
     scoreA?: boolean
     scoreB?: boolean
+    gamesA?: boolean
+    gamesB?: boolean
     updatedAt?: boolean
     court?: boolean | CourtDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["scoreboard"]>
@@ -2291,6 +2315,8 @@ export namespace Prisma {
     teamB?: boolean
     scoreA?: boolean
     scoreB?: boolean
+    gamesA?: boolean
+    gamesB?: boolean
     updatedAt?: boolean
     court?: boolean | CourtDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["scoreboard"]>
@@ -2302,6 +2328,8 @@ export namespace Prisma {
     teamB?: boolean
     scoreA?: boolean
     scoreB?: boolean
+    gamesA?: boolean
+    gamesB?: boolean
     updatedAt?: boolean
     court?: boolean | CourtDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["scoreboard"]>
@@ -2313,10 +2341,12 @@ export namespace Prisma {
     teamB?: boolean
     scoreA?: boolean
     scoreB?: boolean
+    gamesA?: boolean
+    gamesB?: boolean
     updatedAt?: boolean
   }
 
-  export type ScoreboardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courtId" | "teamA" | "teamB" | "scoreA" | "scoreB" | "updatedAt", ExtArgs["result"]["scoreboard"]>
+  export type ScoreboardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courtId" | "teamA" | "teamB" | "scoreA" | "scoreB" | "gamesA" | "gamesB" | "updatedAt", ExtArgs["result"]["scoreboard"]>
   export type ScoreboardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     court?: boolean | CourtDefaultArgs<ExtArgs>
   }
@@ -2339,6 +2369,8 @@ export namespace Prisma {
       teamB: string
       scoreA: number
       scoreB: number
+      gamesA: number
+      gamesB: number
       updatedAt: Date
     }, ExtArgs["result"]["scoreboard"]>
     composites: {}
@@ -2770,6 +2802,8 @@ export namespace Prisma {
     readonly teamB: FieldRef<"Scoreboard", 'String'>
     readonly scoreA: FieldRef<"Scoreboard", 'Int'>
     readonly scoreB: FieldRef<"Scoreboard", 'Int'>
+    readonly gamesA: FieldRef<"Scoreboard", 'Int'>
+    readonly gamesB: FieldRef<"Scoreboard", 'Int'>
     readonly updatedAt: FieldRef<"Scoreboard", 'DateTime'>
   }
     
@@ -3214,6 +3248,8 @@ export namespace Prisma {
     teamB: 'teamB',
     scoreA: 'scoreA',
     scoreB: 'scoreB',
+    gamesA: 'gamesA',
+    gamesB: 'gamesB',
     updatedAt: 'updatedAt'
   };
 
@@ -3352,6 +3388,8 @@ export namespace Prisma {
     teamB?: StringFilter<"Scoreboard"> | string
     scoreA?: IntFilter<"Scoreboard"> | number
     scoreB?: IntFilter<"Scoreboard"> | number
+    gamesA?: IntFilter<"Scoreboard"> | number
+    gamesB?: IntFilter<"Scoreboard"> | number
     updatedAt?: DateTimeFilter<"Scoreboard"> | Date | string
     court?: XOR<CourtScalarRelationFilter, CourtWhereInput>
   }
@@ -3363,6 +3401,8 @@ export namespace Prisma {
     teamB?: SortOrder
     scoreA?: SortOrder
     scoreB?: SortOrder
+    gamesA?: SortOrder
+    gamesB?: SortOrder
     updatedAt?: SortOrder
     court?: CourtOrderByWithRelationInput
   }
@@ -3377,6 +3417,8 @@ export namespace Prisma {
     teamB?: StringFilter<"Scoreboard"> | string
     scoreA?: IntFilter<"Scoreboard"> | number
     scoreB?: IntFilter<"Scoreboard"> | number
+    gamesA?: IntFilter<"Scoreboard"> | number
+    gamesB?: IntFilter<"Scoreboard"> | number
     updatedAt?: DateTimeFilter<"Scoreboard"> | Date | string
     court?: XOR<CourtScalarRelationFilter, CourtWhereInput>
   }, "id">
@@ -3388,6 +3430,8 @@ export namespace Prisma {
     teamB?: SortOrder
     scoreA?: SortOrder
     scoreB?: SortOrder
+    gamesA?: SortOrder
+    gamesB?: SortOrder
     updatedAt?: SortOrder
     _count?: ScoreboardCountOrderByAggregateInput
     _avg?: ScoreboardAvgOrderByAggregateInput
@@ -3406,6 +3450,8 @@ export namespace Prisma {
     teamB?: StringWithAggregatesFilter<"Scoreboard"> | string
     scoreA?: IntWithAggregatesFilter<"Scoreboard"> | number
     scoreB?: IntWithAggregatesFilter<"Scoreboard"> | number
+    gamesA?: IntWithAggregatesFilter<"Scoreboard"> | number
+    gamesB?: IntWithAggregatesFilter<"Scoreboard"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"Scoreboard"> | Date | string
   }
 
@@ -3450,6 +3496,8 @@ export namespace Prisma {
     teamB: string
     scoreA: number
     scoreB: number
+    gamesA?: number
+    gamesB?: number
     updatedAt?: Date | string
     court: CourtCreateNestedOneWithoutScoreboardInput
   }
@@ -3461,6 +3509,8 @@ export namespace Prisma {
     teamB: string
     scoreA: number
     scoreB: number
+    gamesA?: number
+    gamesB?: number
     updatedAt?: Date | string
   }
 
@@ -3469,6 +3519,8 @@ export namespace Prisma {
     teamB?: StringFieldUpdateOperationsInput | string
     scoreA?: IntFieldUpdateOperationsInput | number
     scoreB?: IntFieldUpdateOperationsInput | number
+    gamesA?: IntFieldUpdateOperationsInput | number
+    gamesB?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     court?: CourtUpdateOneRequiredWithoutScoreboardNestedInput
   }
@@ -3480,6 +3532,8 @@ export namespace Prisma {
     teamB?: StringFieldUpdateOperationsInput | string
     scoreA?: IntFieldUpdateOperationsInput | number
     scoreB?: IntFieldUpdateOperationsInput | number
+    gamesA?: IntFieldUpdateOperationsInput | number
+    gamesB?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3490,6 +3544,8 @@ export namespace Prisma {
     teamB: string
     scoreA: number
     scoreB: number
+    gamesA?: number
+    gamesB?: number
     updatedAt?: Date | string
   }
 
@@ -3498,6 +3554,8 @@ export namespace Prisma {
     teamB?: StringFieldUpdateOperationsInput | string
     scoreA?: IntFieldUpdateOperationsInput | number
     scoreB?: IntFieldUpdateOperationsInput | number
+    gamesA?: IntFieldUpdateOperationsInput | number
+    gamesB?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3508,6 +3566,8 @@ export namespace Prisma {
     teamB?: StringFieldUpdateOperationsInput | string
     scoreA?: IntFieldUpdateOperationsInput | number
     scoreB?: IntFieldUpdateOperationsInput | number
+    gamesA?: IntFieldUpdateOperationsInput | number
+    gamesB?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3627,6 +3687,8 @@ export namespace Prisma {
     teamB?: SortOrder
     scoreA?: SortOrder
     scoreB?: SortOrder
+    gamesA?: SortOrder
+    gamesB?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -3635,6 +3697,8 @@ export namespace Prisma {
     courtId?: SortOrder
     scoreA?: SortOrder
     scoreB?: SortOrder
+    gamesA?: SortOrder
+    gamesB?: SortOrder
   }
 
   export type ScoreboardMaxOrderByAggregateInput = {
@@ -3644,6 +3708,8 @@ export namespace Prisma {
     teamB?: SortOrder
     scoreA?: SortOrder
     scoreB?: SortOrder
+    gamesA?: SortOrder
+    gamesB?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -3654,6 +3720,8 @@ export namespace Prisma {
     teamB?: SortOrder
     scoreA?: SortOrder
     scoreB?: SortOrder
+    gamesA?: SortOrder
+    gamesB?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -3662,6 +3730,8 @@ export namespace Prisma {
     courtId?: SortOrder
     scoreA?: SortOrder
     scoreB?: SortOrder
+    gamesA?: SortOrder
+    gamesB?: SortOrder
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -3849,6 +3919,8 @@ export namespace Prisma {
     teamB: string
     scoreA: number
     scoreB: number
+    gamesA?: number
+    gamesB?: number
     updatedAt?: Date | string
   }
 
@@ -3858,6 +3930,8 @@ export namespace Prisma {
     teamB: string
     scoreA: number
     scoreB: number
+    gamesA?: number
+    gamesB?: number
     updatedAt?: Date | string
   }
 
@@ -3897,6 +3971,8 @@ export namespace Prisma {
     teamB?: StringFilter<"Scoreboard"> | string
     scoreA?: IntFilter<"Scoreboard"> | number
     scoreB?: IntFilter<"Scoreboard"> | number
+    gamesA?: IntFilter<"Scoreboard"> | number
+    gamesB?: IntFilter<"Scoreboard"> | number
     updatedAt?: DateTimeFilter<"Scoreboard"> | Date | string
   }
 
@@ -3940,6 +4016,8 @@ export namespace Prisma {
     teamB: string
     scoreA: number
     scoreB: number
+    gamesA?: number
+    gamesB?: number
     updatedAt?: Date | string
   }
 
@@ -3948,6 +4026,8 @@ export namespace Prisma {
     teamB?: StringFieldUpdateOperationsInput | string
     scoreA?: IntFieldUpdateOperationsInput | number
     scoreB?: IntFieldUpdateOperationsInput | number
+    gamesA?: IntFieldUpdateOperationsInput | number
+    gamesB?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3957,6 +4037,8 @@ export namespace Prisma {
     teamB?: StringFieldUpdateOperationsInput | string
     scoreA?: IntFieldUpdateOperationsInput | number
     scoreB?: IntFieldUpdateOperationsInput | number
+    gamesA?: IntFieldUpdateOperationsInput | number
+    gamesB?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3966,6 +4048,8 @@ export namespace Prisma {
     teamB?: StringFieldUpdateOperationsInput | string
     scoreA?: IntFieldUpdateOperationsInput | number
     scoreB?: IntFieldUpdateOperationsInput | number
+    gamesA?: IntFieldUpdateOperationsInput | number
+    gamesB?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

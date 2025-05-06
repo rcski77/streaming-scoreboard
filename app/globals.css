@@ -24,3 +24,22 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Apply pointer cursor to common interactive elements */
+button,
+a,
+input[type="submit"],
+input[type="button"] {
+  cursor: pointer;
+}
+
+@keyframes fade {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.animate-fade {
+  animation: fade 3s ease-in-out forwards;
+}

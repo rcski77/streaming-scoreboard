@@ -1,13 +1,21 @@
+// ----------
+// app/admin/page.tsx (Admin page with games display and home button)
+// ----------
+
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function AdminPage() {
+  const router = useRouter()
   const [courtId, setCourtId] = useState(1)
   const [teamA, setTeamA] = useState('Team A')
   const [teamB, setTeamB] = useState('Team B')
   const [scoreA, setScoreA] = useState(0)
   const [scoreB, setScoreB] = useState(0)
+  const [gamesA, setGamesA] = useState(0)
+  const [gamesB, setGamesB] = useState(0)
   const [newCourtName, setNewCourtName] = useState('')
   const [renameCourtName, setRenameCourtName] = useState('')
   const [message, setMessage] = useState('')
@@ -31,6 +39,8 @@ export default function AdminPage() {
           setTeamB(data.teamB)
           setScoreA(data.scoreA)
           setScoreB(data.scoreB)
+          setGamesA(data.gamesA || 0)
+          setGamesB(data.gamesB || 0)
         }
       })
   }
@@ -47,7 +57,7 @@ export default function AdminPage() {
     const res = await fetch('/api/scoreboard/update', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ courtId, teamA, teamB, scoreA, scoreB })
+      body: JSON.stringify({ courtId, teamA, teamB, scoreA, scoreB, gamesA, gamesB })
     })
     if (res.ok) setMessage('Score updated successfully')
     else setMessage('Failed to update score')
@@ -94,11 +104,20 @@ export default function AdminPage() {
   return (
     <div className="p-4 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Admin Score Update</h1>
+      <div className="mb-4">
+        <button
+          onClick={() => router.push('/')}
+          className="bg-blue-700 text-white px-4 py-2 rounded"
+        >
+          ← Back to Home
+        </button>
+      </div>
+
       <label>Court:</label>
       <select
         value={courtId}
         onChange={e => setCourtId(+e.target.value)}
-        className="border p-1 mb-2 w-full"
+        className="border p-1 mb-2 w-full bg-gray-500 text-white"
       >
         {courts.map(court => (
           <option key={court.id} value={court.id}>{court.name}</option>
@@ -107,12 +126,18 @@ export default function AdminPage() {
 
       <label>Team A:</label>
       <input value={teamA} onChange={e => setTeamA(e.target.value)} className="border p-1 mb-2 w-full" />
-      <label>Team B:</label>
-      <input value={teamB} onChange={e => setTeamB(e.target.value)} className="border p-1 mb-2 w-full" />
       <label>Score A:</label>
       <input type="number" value={scoreA} onChange={e => setScoreA(+e.target.value)} className="border p-1 mb-2 w-full" />
+      <label>Games A (Won):</label>
+      <input type="number" value={gamesA} onChange={e => setGamesA(+e.target.value)} className="border p-1 mb-2 w-full" />
+
+      <label>Team B:</label>
+      <input value={teamB} onChange={e => setTeamB(e.target.value)} className="border p-1 mb-2 w-full" />
       <label>Score B:</label>
       <input type="number" value={scoreB} onChange={e => setScoreB(+e.target.value)} className="border p-1 mb-2 w-full" />
+      <label>Games B (Won):</label>
+      <input type="number" value={gamesB} onChange={e => setGamesB(+e.target.value)} className="border p-1 mb-2 w-full" />
+
       <button onClick={updateScore} className="bg-blue-500 text-white px-4 py-2 rounded">Update Score</button>
 
       <div className="mt-6">
