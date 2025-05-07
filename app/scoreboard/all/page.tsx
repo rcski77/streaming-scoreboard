@@ -56,8 +56,8 @@ export default function AllScoreboards() {
           className="bg-black rounded-lg overflow-hidden shadow-lg h-[165px]"
         >
           <div className="grid grid-cols-5 text-center text-white text-xl">
-            <div className="col-span-5 bg-yellow-600 p-2 text-black font-bold">
-              Court {s.courtId}
+            <div className={`col-span-5 p-2 text-black font-bold ${s.gamesA === 2 || s.gamesB === 2 ? "bg-red-600" : "bg-yellow-600"}`}>
+              Court {s.courtId} {s.gamesA === 2 || s.gamesB === 2 ? " - Match Over" : ""}
             </div>
             <div className="col-span-3 bg-gradient-to-r from-blue-700 to-blue-500 p-4 border-b border-white">
               {s.teamA}

@@ -38,7 +38,7 @@ export default function HomePage() {
                 onClick={() => router.push(`/scoreboard/${court.id}/display`)}
                 aria-label={`View display for ${court.name}`}
               >
-                <Eye className="w-5 h-5" />
+                <Eye className="w-6 h-6" />
               </button>
             </li>
           ))}
