@@ -4,16 +4,17 @@
 
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { use, useEffect, useState, useCallback } from "react";
+//import { useRouter } from "next/navigation";
 
 export default function Scoreboard({
   params,
 }: {
-  params: { courtId: string };
+  params: Promise<{ courtId: string }>;
 }) {
-  const courtId = parseInt(params.courtId);
-  const router = useRouter();
+  const { courtId } = use(params);
+  const parsedCourtId = parseInt(courtId);
+  //const router = useRouter();
 
   interface Scoreboard {
     teamA: string;
@@ -33,6 +34,13 @@ export default function Scoreboard({
     scoreA: number;
     scoreB: number;
   } | null>(null);
+  const [flipped, setFlipped] = useState(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(`flip-${parsedCourtId}`);
+      return stored === "true";
+    }
+    return false;
+  });
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -41,7 +49,7 @@ export default function Scoreboard({
 
   const fetchScoreboard = useCallback(async () => {
     try {
-      const res = await fetch(`/api/scoreboard/${courtId}`);
+      const res = await fetch(`/api/scoreboard/${parsedCourtId}`);
       const data = await res.json();
       setScoreboard(data);
       setLoading(false);
@@ -49,7 +57,7 @@ export default function Scoreboard({
       setError(true);
       setLoading(false);
     }
-  }, [courtId]);
+  }, [parsedCourtId]);
 
   useEffect(() => {
     fetchScoreboard();
@@ -61,7 +69,7 @@ export default function Scoreboard({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        courtId,
+        courtId: parsedCourtId,
         teamA: scoreboard.teamA,
         teamB: scoreboard.teamB,
         scoreA: scoreboard.scoreA + deltaA,
@@ -107,7 +115,7 @@ export default function Scoreboard({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        courtId,
+        courtId: parsedCourtId,
         teamA: scoreboard.teamA,
         teamB: scoreboard.teamB,
         scoreA: 0,
@@ -132,7 +140,7 @@ export default function Scoreboard({
   if (matchComplete) {
     return (
       <div className="p-6 text-center">
-        <h1 className="text-3xl font-bold mb-4">Court {courtId}</h1>
+        <h1 className="text-3xl font-bold mb-4">Court {parsedCourtId}</h1>
         <p className="text-xl text-green-600 font-semibold mb-4">
           This match has completed.
         </p>
@@ -156,7 +164,7 @@ export default function Scoreboard({
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  courtId,
+                  courtId: parsedCourtId,
                   teamA: scoreboard.teamA,
                   teamB: scoreboard.teamB,
                   scoreA: updatedScoreA,
@@ -184,33 +192,59 @@ export default function Scoreboard({
         </div>
       )}
 
-      <h1 className="text-2xl font-bold mb-13">Court {courtId}</h1>
+      <h1 className="text-2xl font-bold mb-13">Court {parsedCourtId}</h1>
 
       <div className="grid grid-cols-3 gap-4 justify-center items-start">
         {/* Team A */}
-        <div className="flex flex-col items-center">
-          <div className="text-xl mb-2">{scoreboard.teamA}</div>
-          <div className="flex items-center gap-4">
-            <div className="text-5xl font-bold">{scoreboard.scoreA}</div>
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={() => updateScore(1, 0)}
-                className="w-12 sm:w-16 md:w-20 bg-green-500 text-white py-1 sm:py-2 rounded cursor-pointer"
-              >
-                +1
-              </button>
-              <button
-                onClick={() => updateScore(-1, 0)}
-                className="w-12 sm:w-16 md:w-20 bg-red-500 text-white py-1 sm:py-2 rounded cursor-pointer"
-              >
-                -1
-              </button>
+        {flipped ? (
+          <div className="flex flex-col items-center">
+            <div className="text-xl mb-2">{scoreboard.teamB}</div>
+            <div className="flex items-center gap-4">
+              <div className="text-5xl font-bold">{scoreboard.scoreB}</div>
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => updateScore(0, 1)}
+                  className="w-12 sm:w-16 md:w-20 bg-green-500 text-white py-1 sm:py-2 rounded cursor-pointer"
+                >
+                  +1
+                </button>
+                <button
+                  onClick={() => updateScore(0, -1)}
+                  className="w-12 sm:w-16 md:w-20 bg-red-500 text-white py-1 sm:py-2 rounded cursor-pointer"
+                >
+                  -1
+                </button>
+              </div>
+            </div>
+            <div className="text-sm mt-2">
+              Games Won: {scoreboard.gamesB ?? 0}
             </div>
           </div>
-          <div className="text-sm mt-2">
-            Games Won: {scoreboard.gamesA ?? 0}
+        ) : (
+          <div className="flex flex-col items-center">
+            <div className="text-xl mb-2">{scoreboard.teamA}</div>
+            <div className="flex items-center gap-4">
+              <div className="text-5xl font-bold">{scoreboard.scoreA}</div>
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => updateScore(1, 0)}
+                  className="w-12 sm:w-16 md:w-20 bg-green-500 text-white py-1 sm:py-2 rounded cursor-pointer"
+                >
+                  +1
+                </button>
+                <button
+                  onClick={() => updateScore(-1, 0)}
+                  className="w-12 sm:w-16 md:w-20 bg-red-500 text-white py-1 sm:py-2 rounded cursor-pointer"
+                >
+                  -1
+                </button>
+              </div>
+            </div>
+            <div className="text-sm mt-2">
+              Games Won: {scoreboard.gamesA ?? 0}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Set Display */}
         <div className="flex flex-col items-center justify-center">
@@ -218,32 +252,73 @@ export default function Scoreboard({
         </div>
 
         {/* Team B */}
-        <div className="flex flex-col items-center">
-          <div className="text-xl mb-2">{scoreboard.teamB}</div>
-          <div className="flex items-center gap-4">
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={() => updateScore(0, 1)}
-                className="w-12 sm:w-16 md:w-20 bg-green-500 text-white py-1 sm:py-2 rounded cursor-pointer"
-              >
-                +1
-              </button>
-              <button
-                onClick={() => updateScore(0, -1)}
-                className="w-12 sm:w-16 md:w-20 bg-red-500 text-white py-1 sm:py-2 rounded cursor-pointer"
-              >
-                -1
-              </button>
+        {flipped ? (
+          <div className="flex flex-col items-center">
+            <div className="text-xl mb-2">{scoreboard.teamA}</div>
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => updateScore(1, 0)}
+                  className="w-12 sm:w-16 md:w-20 bg-green-500 text-white py-1 sm:py-2 rounded cursor-pointer"
+                >
+                  +1
+                </button>
+                <button
+                  onClick={() => updateScore(-1, 0)}
+                  className="w-12 sm:w-16 md:w-20 bg-red-500 text-white py-1 sm:py-2 rounded cursor-pointer"
+                >
+                  -1
+                </button>
+              </div>
+              <div className="text-5xl font-bold">{scoreboard.scoreA}</div>
             </div>
-            <div className="text-5xl font-bold">{scoreboard.scoreB}</div>
+            <div className="text-sm mt-2">
+              Games Won: {scoreboard.gamesA ?? 0}
+            </div>
           </div>
-          <div className="text-sm mt-2">
-            Games Won: {scoreboard.gamesB ?? 0}
+        ) : (
+          <div className="flex flex-col items-center">
+            <div className="text-xl mb-2">{scoreboard.teamB}</div>
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => updateScore(0, 1)}
+                  className="w-12 sm:w-16 md:w-20 bg-green-500 text-white py-1 sm:py-2 rounded cursor-pointer"
+                >
+                  +1
+                </button>
+                <button
+                  onClick={() => updateScore(0, -1)}
+                  className="w-12 sm:w-16 md:w-20 bg-red-500 text-white py-1 sm:py-2 rounded cursor-pointer"
+                >
+                  -1
+                </button>
+              </div>
+              <div className="text-5xl font-bold">{scoreboard.scoreB}</div>
+            </div>
+            <div className="text-sm mt-2">
+              Games Won: {scoreboard.gamesB ?? 0}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
-      <div className="mt-6 flex justify-center">
+      <div className="mt-4 flex justify-center">
+        <button
+          onClick={() => {
+            setFlipped((prev) => {
+              const newState = !prev;
+              localStorage.setItem(`flip-${parsedCourtId}`, newState.toString());
+              return newState;
+            });
+          }}
+          className="w-32 sm:w-40 md:w-48 bg-purple-600 text-white px-4 py-2 rounded cursor-pointer"
+        >
+          Switch Sides
+        </button>
+      </div>
+
+      <div className="mt-4 flex justify-center">
         <button
           onClick={endGame}
           className="w-32 sm:w-40 md:w-48 bg-yellow-500 text-black py-2 rounded cursor-pointer"
@@ -252,14 +327,14 @@ export default function Scoreboard({
         </button>
       </div>
 
-      <div className="mt-4 flex justify-center">
+      {/* <div className="mt-4 flex justify-center">
         <button
           onClick={() => router.push("/")}
           className="w-32 sm:w-40 md:w-48 bg-blue-600 text-white py-2 rounded cursor-pointer"
         >
           ← Back to Home
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
