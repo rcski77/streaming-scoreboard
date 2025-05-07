@@ -42,6 +42,14 @@ export default function HomePage() {
               </button>
             </li>
           ))}
+          <li className="flex items-center justify-between gap-2">
+            <button
+              className="flex-1 bg-red-600 text-white px-4 py-2 rounded"
+              onClick={() => router.push('/scoreboard/all')}
+            >
+              View All Scoreboards
+            </button>
+          </li>
         </ul>
       )}
     </div>
