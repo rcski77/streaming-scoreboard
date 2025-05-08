@@ -41,6 +41,7 @@ export default function Scoreboard({
     }
     return false;
   });
+  const [betweenSets, setBetweenSets] = useState(false);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -124,9 +125,12 @@ export default function Scoreboard({
         gamesB: newGamesB,
       }),
     });
+    if (res.ok) await fetchScoreboard();
+    if ((newGamesA ?? 0) !== 2 && (newGamesB ?? 0) !== 2) {
+      setBetweenSets(true); //show between sets message only if match is not complete
+    }
+  }; // endGame function
 
-    if (res.ok) fetchScoreboard();
-  };
 
   if (error)
     return <div className="p-4 text-center">Error loading scoreboard</div>;
@@ -137,6 +141,75 @@ export default function Scoreboard({
   const matchComplete =
     (scoreboard.gamesA ?? 0) === 2 || (scoreboard.gamesB ?? 0) === 2;
 
+
+  // show this screen if match is between sets
+  if (betweenSets) {
+    return (
+      <div className="p-6 text-center relative">
+        <h1 className="text-3xl font-bold mb-4">Court {parsedCourtId}</h1>
+        <p className="text-xl text-yellow-600 font-semibold mb-4">
+          This match is between sets.
+        </p>
+        <div className="flex flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col items-center">
+            <div className="text-xl mb-2">{scoreboard.teamA}</div>
+            <div className="text-4xl mt-2">{scoreboard.gamesA ?? 0}</div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="text-xl mb-2">{scoreboard.teamB}</div>
+            <div className="text-4xl mt-2">{scoreboard.gamesB ?? 0}</div>
+          </div>
+        </div>
+        <div className="mt-4 flex justify-center">
+          <button
+            onClick={async () => {
+              if (!scoreboard || !lastScore || !lastWinner) return;
+
+              const updatedScoreA = lastScore.scoreA;
+              const updatedScoreB = lastScore.scoreB;
+              const updatedGamesA =
+                lastWinner === "A" && (scoreboard.gamesA ?? 0) > 0
+                  ? (scoreboard.gamesA ?? 0) - 1
+                  : scoreboard.gamesA ?? 0;
+              const updatedGamesB =
+                lastWinner === "B" && (scoreboard.gamesB ?? 0) > 0
+                  ? (scoreboard.gamesB ?? 0) - 1
+                  : scoreboard.gamesB ?? 0;
+
+              setBetweenSets(false); // Hide the between sets message
+
+              const res = await fetch("/api/scoreboard/update", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  courtId: parsedCourtId,
+                  teamA: scoreboard.teamA,
+                  teamB: scoreboard.teamB,
+                  scoreA: updatedScoreA,
+                  scoreB: updatedScoreB,
+                  gamesA: updatedGamesA,
+                  gamesB: updatedGamesB,
+                }),
+              });
+              if (res.ok) fetchScoreboard();
+            }}
+            className="w-32 sm:w-40 md:w-48 bg-gray-500 text-white py-2 rounded cursor-pointer"
+          >
+            Undo End Set
+          </button>
+          <button
+            onClick={() => setBetweenSets(false)}
+            className="w-32 sm:w-40 md:w-48 bg-blue-500 text-white py-2 rounded cursor-pointer ml-4"
+          >
+            Go to Next Set
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+
+  // show this screen if match is complete
   if (matchComplete) {
     return (
       <div className="p-6 text-center">
@@ -144,6 +217,16 @@ export default function Scoreboard({
         <p className="text-xl text-green-600 font-semibold mb-4">
           This match has completed.
         </p>
+        <div className="flex flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col items-center">
+            <div className="text-xl mb-2">{scoreboard.teamA}</div>
+            <div className="text-4xl mt-2">{scoreboard.gamesA ?? 0}</div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="text-xl mb-2">{scoreboard.teamB}</div>
+            <div className="text-4xl mt-2">{scoreboard.gamesB ?? 0}</div>
+          </div>
+        </div>
         <div className="mt-4 flex justify-center">
           <button
             onClick={async () => {
@@ -184,6 +267,7 @@ export default function Scoreboard({
     );
   }
 
+  // default screen to control the scoreboard
   return (
     <div className="relative p-4 text-center">
       {toastMessage && (
@@ -308,7 +392,10 @@ export default function Scoreboard({
           onClick={() => {
             setFlipped((prev) => {
               const newState = !prev;
-              localStorage.setItem(`flip-${parsedCourtId}`, newState.toString());
+              localStorage.setItem(
+                `flip-${parsedCourtId}`,
+                newState.toString()
+              );
               return newState;
             });
           }}
