@@ -19,6 +19,8 @@ export async function POST(req: Request) {
       teamB: 'Team B',
       scoreA: 0,
       scoreB: 0,
+      gamesA: 0,
+      gamesB: 0,
     }
   })
 
