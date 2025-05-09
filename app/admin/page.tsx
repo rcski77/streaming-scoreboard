@@ -31,7 +31,7 @@ export default function AdminPage() {
   }
 
   const fetchScoreboard = (id: number) => {
-    fetch(`/api/scoreboard/by-court/${id}`)
+    fetch(`/api/scoreboard/${id}`)
       .then(res => res.json())
       .then(data => {
         if (data) {
