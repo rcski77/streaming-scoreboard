@@ -17,6 +17,7 @@ export default function Scoreboard({
   //const router = useRouter();
 
   interface Scoreboard {
+    id: number;
     teamA: string;
     teamB: string;
     scoreA: number;
@@ -70,6 +71,7 @@ export default function Scoreboard({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        id: scoreboard.id,
         courtId: parsedCourtId,
         teamA: scoreboard.teamA,
         teamB: scoreboard.teamB,
@@ -116,6 +118,7 @@ export default function Scoreboard({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        id: scoreboard.id,
         courtId: parsedCourtId,
         teamA: scoreboard.teamA,
         teamB: scoreboard.teamB,
@@ -182,6 +185,7 @@ export default function Scoreboard({
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
+                  id: scoreboard.id,
                   courtId: parsedCourtId,
                   teamA: scoreboard.teamA,
                   teamB: scoreboard.teamB,
@@ -247,6 +251,7 @@ export default function Scoreboard({
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
+                  id: scoreboard.id,
                   courtId: parsedCourtId,
                   teamA: scoreboard.teamA,
                   teamB: scoreboard.teamB,
