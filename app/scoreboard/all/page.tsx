@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 export default function AllScoreboards() {
   interface Scoreboard {
     courtId: number;
+    courtName: string;
     teamA: string;
     scoreA: number;
     teamB: string;
@@ -25,10 +26,10 @@ export default function AllScoreboards() {
       const courts = await courtRes.json();
 
       const scoreboardData = await Promise.all(
-        courts.map(async (court: { id: number }) => {
+        courts.map(async (court: { id: number; name: string }) => {
           const res = await fetch(`/api/scoreboard/${court.id}`);
           const data = await res.json();
-          return { courtId: court.id, ...data };
+          return { courtId: court.id, courtName: court.name, ...data };
         })
       );
 
@@ -57,7 +58,7 @@ export default function AllScoreboards() {
         >
           <div className="grid grid-cols-5 text-center text-white text-xl">
             <div className={`col-span-5 p-2 text-black font-bold ${s.gamesA === 2 || s.gamesB === 2 ? "bg-red-600" : "bg-yellow-600"}`}>
-              Court {s.courtId} {s.gamesA === 2 || s.gamesB === 2 ? " - Match Over" : ""}
+              {s.courtName} {s.gamesA === 2 || s.gamesB === 2 ? " - Match Over" : ""}
             </div>
             <div className="col-span-3 bg-gradient-to-r from-blue-700 to-blue-500 p-4 border-b border-white">
               {s.teamA}
