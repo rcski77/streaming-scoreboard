@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 export default function AdminPage() {
   const router = useRouter()
   const [courtId, setCourtId] = useState(1)
+  const [id, setId] = useState(0)
   const [teamA, setTeamA] = useState('Team A')
   const [teamB, setTeamB] = useState('Team B')
   const [scoreA, setScoreA] = useState(0)
@@ -35,6 +36,7 @@ export default function AdminPage() {
       .then(res => res.json())
       .then(data => {
         if (data) {
+          setId(data.id)
           setTeamA(data.teamA)
           setTeamB(data.teamB)
           setScoreA(data.scoreA)
@@ -57,7 +59,7 @@ export default function AdminPage() {
     const res = await fetch('/api/scoreboard/update', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ courtId, teamA, teamB, scoreA, scoreB, gamesA, gamesB })
+      body: JSON.stringify({ id, courtId, teamA, teamB, scoreA, scoreB, gamesA, gamesB })
     })
     if (res.ok) setMessage('Score updated successfully')
     else setMessage('Failed to update score')

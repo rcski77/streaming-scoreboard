@@ -67,14 +67,11 @@ export default function Scoreboard({
 
   const updateScore = async (deltaA: number, deltaB: number) => {
     if (!scoreboard) return;
-    const res = await fetch("/api/scoreboard/update", {
+    const res = await fetch("/api/scoreboard/update-scores", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         id: scoreboard.id,
-        courtId: parsedCourtId,
-        teamA: scoreboard.teamA,
-        teamB: scoreboard.teamB,
         scoreA: scoreboard.scoreA + deltaA,
         scoreB: scoreboard.scoreB + deltaB,
         gamesA: scoreboard.gamesA || 0,
