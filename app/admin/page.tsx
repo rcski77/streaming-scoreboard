@@ -123,6 +123,12 @@ function AdminPage() {
     } else setMessage("Failed to delete court");
   };
 
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      signIn();
+    }
+  }, [status]);
+
   if (status === "loading") {
     return <div className="p-4">Checking authentication...</div>;
   }
@@ -132,18 +138,7 @@ function AdminPage() {
       <div className="p-4 text-center">
         <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
         <div className="flex flex-col gap-4 items-center">
-          <button
-        onClick={() => signIn()} // Opens the NextAuth sign-in flow
-        className="bg-blue-600 text-white px-4 py-2 rounded w-48"
-          >
-        Sign In with Email
-          </button>
-          <button
-        className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded w-48"
-        onClick={() => router.push("/")}
-          >
-        Back to Home
-          </button>
+          <p>Redirecting to sign-in...</p>
         </div>
       </div>
     );
@@ -184,42 +179,42 @@ function AdminPage() {
       <input
         value={teamA}
         onChange={(e) => setTeamA(e.target.value)}
-        className="border p-1 mb-2 w-full"
+        className="border p-1 mb-2 w-full bg-white text-black"
       />
       <label>Score A:</label>
       <input
         type="number"
         value={scoreA}
         onChange={(e) => setScoreA(+e.target.value)}
-        className="border p-1 mb-2 w-full"
+        className="border p-1 mb-2 w-full bg-white text-black"
       />
       <label>Games A (Won):</label>
       <input
         type="number"
         value={gamesA}
         onChange={(e) => setGamesA(+e.target.value)}
-        className="border p-1 mb-2 w-full"
+        className="border p-1 mb-2 w-full bg-white text-black"
       />
 
       <label>Team B:</label>
       <input
         value={teamB}
         onChange={(e) => setTeamB(e.target.value)}
-        className="border p-1 mb-2 w-full"
+        className="border p-1 mb-2 w-full bg-white text-black"
       />
       <label>Score B:</label>
       <input
         type="number"
         value={scoreB}
         onChange={(e) => setScoreB(+e.target.value)}
-        className="border p-1 mb-2 w-full"
+        className="border p-1 mb-2 w-full bg-white text-black"
       />
       <label>Games B (Won):</label>
       <input
         type="number"
         value={gamesB}
         onChange={(e) => setGamesB(+e.target.value)}
-        className="border p-1 mb-2 w-full"
+        className="border p-1 mb-2 w-full bg-white text-black"
       />
 
       <button
@@ -234,7 +229,7 @@ function AdminPage() {
         <input
           value={newCourtName}
           onChange={(e) => setNewCourtName(e.target.value)}
-          className="border p-1 mb-2 w-full"
+          className="border p-1 mb-2 w-full bg-white text-black"
         />
         <button
           onClick={createCourt}
@@ -249,7 +244,7 @@ function AdminPage() {
         <input
           value={renameCourtName}
           onChange={(e) => setRenameCourtName(e.target.value)}
-          className="border p-1 mb-2 w-full"
+          className="border p-1 mb-2 w-full bg-white text-black"
         />
         <button
           onClick={renameCourt}

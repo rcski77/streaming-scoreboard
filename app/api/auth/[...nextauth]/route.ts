@@ -22,6 +22,7 @@ const handler = NextAuth({
   },
   pages: {
     signIn: '/auth/signin', // Optional: custom sign-in page
+    error: '/auth/error', // Error code passed in query string as ?error=
   }
 })
 
