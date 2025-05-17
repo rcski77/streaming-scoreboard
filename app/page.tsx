@@ -20,6 +20,14 @@ export default function HomePage() {
 
   return (
     <div className="p-4 max-w-xl mx-auto text-center">
+      <div className="absolute top-4 right-6">
+        <button
+          className="bg-yellow-500 text-black px-4 py-2 rounded"
+          onClick={() => router.push('/admin')}
+        >
+          Admin Login
+        </button>
+      </div>
       <h1 className="text-3xl font-bold mb-6">Select a Court</h1>
       {courts.length === 0 ? (
         <p>No courts available. Please add courts in the admin panel.</p>
