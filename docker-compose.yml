@@ -3,10 +3,8 @@ services:
     image: postgres:18
     container_name: postgres
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: C#as$$fNXotZx2sNW$$hj&aw9c
-      POSTGRES_DB: postgres
+    env_file:
+      - .env
     volumes:
       - pgdata:/var/lib/postgresql
     ports:
@@ -29,10 +27,8 @@ services:
     restart: unless-stopped
     depends_on:
       - db
-    environment:
-      DATABASE_URL: postgresql://postgres:C#as$$fNXotZx2sNW$$hj&aw9c@db:5432/postgres?schema=public
-      NEXTAUTH_URL: http://localhost:3000
-      NEXTAUTH_SECRET: change-me-in-production
+    env_file:
+      - .env
     ports:
       - "3000:3000"
 
