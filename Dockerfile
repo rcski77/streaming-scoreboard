@@ -27,6 +27,8 @@ COPY . .
 
 RUN chmod -R a+x node_modules
 
+RUN npx prisma generate
+
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
