@@ -16,7 +16,23 @@ export async function GET(
   const scoreboard = await prisma.scoreboard.findFirst({
     where: { courtId: parsedCourtId },
     orderBy: { updatedAt: 'desc' },
+    include: {
+      court: {
+        select: {
+          name: true,
+        },
+      },
+    },
   })
 
-  return NextResponse.json(scoreboard)
+  if (!scoreboard) {
+    return NextResponse.json(null)
+  }
+
+  const { court, ...scoreboardData } = scoreboard
+
+  return NextResponse.json({
+    ...scoreboardData,
+    courtName: court.name,
+  })
 }
