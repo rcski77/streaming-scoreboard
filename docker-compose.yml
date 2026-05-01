@@ -3,12 +3,11 @@ services:
     image: postgres:18
     container_name: postgres
     restart: unless-stopped
+    # Use an env-file chosen at runtime. Set ENV_FILE to switch (e.g. ENV_FILE=.env.prod).
     env_file:
-      - .env
+      - ${ENV_FILE:-.env.prod}
     volumes:
       - pgdata:/var/lib/postgresql
-    ports:
-      - "5432:5432"
 
   adminer:
     image: adminer:latest
@@ -16,8 +15,10 @@ services:
     restart: unless-stopped
     depends_on:
       - db
-    ports:
-      - "8080:8080"
+    # Adminer kept on the internal network only. Uncomment the ports mapping
+    # below if you need external access for troubleshooting.
+    # ports:
+    #   - "8080:8080"
 
   web:
     build:
@@ -27,8 +28,9 @@ services:
     restart: unless-stopped
     depends_on:
       - db
+    # Use the same runtime-selectable env-file for the web service.
     env_file:
-      - .env
+      - ${ENV_FILE:-.env.prod}
     ports:
       - "3000:3000"
 

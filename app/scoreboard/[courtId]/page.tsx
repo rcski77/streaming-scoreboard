@@ -18,6 +18,7 @@ export default function Scoreboard({
 
   interface Scoreboard {
     id: number;
+    courtName: string;
     teamA: string;
     teamB: string;
     scoreA: number;
@@ -146,7 +147,7 @@ export default function Scoreboard({
   if (betweenSets) {
     return (
       <div className="p-6 text-center relative">
-        <h1 className="text-3xl font-bold mb-4">Court {parsedCourtId}</h1>
+        <h1 className="text-3xl font-bold mb-4">{scoreboard.courtName}</h1>
         <p className="text-xl text-yellow-600 font-semibold mb-4">
           This match is between sets.
         </p>
@@ -214,7 +215,7 @@ export default function Scoreboard({
   if (matchComplete) {
     return (
       <div className="p-6 text-center">
-        <h1 className="text-3xl font-bold mb-4">Court {parsedCourtId}</h1>
+        <h1 className="text-3xl font-bold mb-4">{scoreboard.courtName}</h1>
         <p className="text-xl text-green-600 font-semibold mb-4">
           This match has completed.
         </p>
@@ -278,7 +279,7 @@ export default function Scoreboard({
         </div>
       )}
 
-      <h1 className="text-2xl font-bold mb-13">Court {parsedCourtId}</h1>
+  <h1 className="text-2xl font-bold mb-13">{scoreboard.courtName}</h1>
 
       <div className="grid grid-cols-3 gap-4 justify-center items-start">
         {/* Team A */}
